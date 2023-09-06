@@ -120,10 +120,13 @@ const Signup = () => {
         position: "bottom",
       });
     } catch (error) {
-      console.log();
+      const status = error.response.status;
+      var message = error.message;
+      if (status === 403) message = "Email is already associated with an account";
+      if (status === 400) message = "Failed to create account";
       toast({
         title: "Error Occured!",
-        description: "User already exist",
+        description: message,
         status: "error",
         duration: 5000,
         isClosable: true,

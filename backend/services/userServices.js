@@ -14,7 +14,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   const userExists = await User.findOne({ email });
   if (userExists) {
-    res.status(400);
+    res.status(403);
     throw new Error("User already exists");
   }
 
@@ -66,12 +66,13 @@ const authUser = expressAsyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if(!user){
-    res.status(403);
+    res.status(404);
     throw new Error("Email is not associated with any account")
   }
 
   if (await user.matchPassword(password)) {
     if(!user.isVerified) {
+      res.status(403);
         throw new Error("User's email is not verified")
     }
     res.json({

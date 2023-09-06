@@ -9,7 +9,7 @@ import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
 
 const Login = () => {
-  const {user, setUser, setSelectedChat} = ChatState();
+  const { user, setUser, setSelectedChat } = ChatState();
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,16 +35,16 @@ const Login = () => {
         setPicLoading(false);
         return;
       }
-      const data = await axios.post(
-        "http://localhost:5001/api/user/login",
-        {
+      const data = await axios
+        .post("http://localhost:5001/api/user/login", {
           email: email,
           password: password,
-        }
-      ).then((res)=> localStorage.setItem("userInfo", JSON.stringify(res.data)))
-      .catch(err => console.log(err));
+        })
+        .then((res) =>
+          localStorage.setItem("userInfo", JSON.stringify(res.data))
+        )
       navigate("/chats");
-      setUser(data.data)
+      setUser(data.data);
       toast({
         title: "Welcome to Chat-App",
         status: "success",
@@ -53,10 +53,11 @@ const Login = () => {
         position: "bottom",
       });
     } catch (error) {
-      const status = error.response.status
+      const status = error.response.status;
       var message = error.message;
-      if(status === 403) message = "Email is not associated with an account";
-      if(status === 401) message = "Email and password does not match";
+      if (status === 404) message = "Email is not associated with an account";
+      if (status === 401) message = "Email and password does not match";
+      if (status === 403) message = "Email not verified";
       toast({
         title: "Error Occured!",
         description: message,
@@ -65,7 +66,6 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      console.log(error.message);
       setPicLoading(false);
     }
   };

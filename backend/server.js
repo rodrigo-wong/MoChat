@@ -1,9 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const userControllers = require("./routes/userRoutes");
-const chatControllers = require("./routes/chatControllers");
-const messageControllers = require("./routes/messageControllers");
+const userControllers = require("./controllers/userControllers");
+const chatControllers = require("./controllers/chatControllers");
+const messageControllers = require("./controllers/messageControllers");
 const cors = require("cors");
 
 dotenv.config();
