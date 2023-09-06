@@ -111,7 +111,7 @@ const Signup = () => {
         },
         { headers: "Content-type : application/json" }
       );
-      navigate("/verification");
+      navigate("/confirm-registration");
       toast({
         title: "Registration Sucessfull",
         status: "success",

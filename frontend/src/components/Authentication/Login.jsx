@@ -11,8 +11,8 @@ import axios from "axios";
 const Login = () => {
   const {user, setUser, setSelectedChat} = ChatState();
   const [show, setShow] = useState(false);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [picLoading, setPicLoading] = useState();
   const toast = useToast();
   const navigate = useNavigate("/chats");
@@ -40,14 +40,11 @@ const Login = () => {
         {
           email: email,
           password: password,
-        },
-        {
-          headers: "Content-Type : application/json",
         }
-      ).then((res)=> localStorage.setItem("userInfo", JSON.stringify(res.data)));
-      ;
+      ).then((res)=> localStorage.setItem("userInfo", JSON.stringify(res.data)))
+      .catch(err => console.log(err));
       navigate("/chats");
-      setUser(data)
+      setUser(data.data)
       toast({
         title: "Welcome to Chat-App",
         status: "success",
@@ -56,10 +53,13 @@ const Login = () => {
         position: "bottom",
       });
     } catch (error) {
-      console.log(error);
+      const status = error.response.status
+      var message = error.message;
+      if(status === 403) message = "Email is not associated with an account";
+      if(status === 401) message = "Email and password does not match";
       toast({
         title: "Error Occured!",
-        description: error.message,
+        description: message,
         status: "error",
         duration: 5000,
         isClosable: true,

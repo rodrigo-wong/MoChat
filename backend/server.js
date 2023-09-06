@@ -1,9 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
-const chatRoutes = require("./routes/chatRoutes");
-const messageRoutes = require("./routes/messageRoutes");
+const userControllers = require("./routes/userRoutes");
+const chatControllers = require("./routes/chatControllers");
+const messageControllers = require("./routes/messageControllers");
 const cors = require("cors");
 
 dotenv.config();
@@ -13,9 +13,9 @@ app.use(cors());
 
 app.use(express.json()); //to accept JSON data
 
-app.use("/api/user", userRoutes);
-app.use("/api/chat", chatRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api/user", userControllers);
+app.use("/api/chat", chatControllers);
+app.use("/api/message", messageControllers);
 
 const PORT = process.env.PORT;
 
