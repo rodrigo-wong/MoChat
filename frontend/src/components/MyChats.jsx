@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const MyChats = () => {
-  const { user, selectedChat, setSelectedChat, chats, setChats, notification, setNotification } = ChatState();
+  const { user, selectedChat, setSelectedChat, chats, setChats} = ChatState();
   const [loggedUser, setLoggedUser] = useState(user);
   //const [loading,setLoading] = useState()
   const toast = useToast();
@@ -19,7 +19,7 @@ const MyChats = () => {
 
   const fetchChats = async () => {
     try {
-      await axios("http://localhost:5001/api/chat", {
+      await axios(process.env.REACT_APP_API_URL+"/api/chat", {
         headers: {
           authorization: "Bearer " + user.token,
         },

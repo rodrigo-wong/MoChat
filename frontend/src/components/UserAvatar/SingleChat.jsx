@@ -19,7 +19,7 @@ import io from "socket.io-client";
 import "./style.css";
 import axios from "axios";
 
-const ENDPOINT = "http://localhost:5001";
+const ENDPOINT = process.env.REACT_APP_API_URL;
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
@@ -37,7 +37,7 @@ const SingleChat = () => {
 
     try {
       setLoading(true);
-      await axios("http://localhost:5001/api/message/" + selectedChat._id, {
+      await axios(process.env.REACT_APP_API_URL+"/api/message/" + selectedChat._id, {
         headers: {
           Authorization: "Bearer " + user.token,
         },
@@ -58,9 +58,11 @@ const SingleChat = () => {
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.emit("setup", user);
+    if (!socketConnected) {
+      socket = io(ENDPOINT);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.emit("setup", user);
+    }
   }, []);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const SingleChat = () => {
 
   const updateNotif = async (message) => {
     await axios.put(
-      "http://localhost:5001/api/message/notification",
+      process.env.REACT_APP_API_URL+"/api/message/notification",
       {
         chatId: message.chat._id,
         messageId: message._id,
@@ -102,19 +104,18 @@ const SingleChat = () => {
     if (e.key === "Enter" && newMessage) {
       try {
         setNewMessage("");
-        const message = await axios
-          .post(
-            "http://localhost:5001/api/message",
-            {
-              content: newMessage,
-              chatId: selectedChat._id,
+        const message = await axios.post(
+          process.env.REACT_APP_API_URL+"api/message",
+          {
+            content: newMessage,
+            chatId: selectedChat._id,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + user.token,
             },
-            {
-              headers: {
-                Authorization: "Bearer " + user.token,
-              },
-            }
-          );
+          }
+        );
         //console.log(data);
         socket.emit("new message", message.data);
         setMessages([...messages, message.data]);

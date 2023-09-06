@@ -18,8 +18,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
@@ -27,13 +26,11 @@ import UserListItem from "../UserAvatar/UserListItem";
 const UpdateGroupChatModal = ({ fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState("");
-  const [search, setSearch] = useState();
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);
 
   const toast = useToast();
-  const navigate = useNavigate();
   const { selectedChat, setSelectedChat, user } = ChatState();
 
   const handleSearch = async (search) => {
@@ -49,7 +46,7 @@ const UpdateGroupChatModal = ({ fetchMessages }) => {
 
     try {
       setLoading(true);
-      await axios("http://localhost:5001/api/user?search=" + search, {
+      await axios(process.env.REACT_APP_API_URL+"/api/user?search=" + search, {
         headers: {
           Authorization: "Bearer " + user.token,
         },
@@ -94,7 +91,7 @@ const UpdateGroupChatModal = ({ fetchMessages }) => {
       setLoading(true);
       await axios
         .put(
-          "http://localhost:5001/api/chat/groupadd",
+          process.env.REACT_APP_API_URL+"/api/chat/groupadd",
           {
             chatId: selectedChat._id,
             userId: user1._id,

@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 const ChatPage = () => {
 
-  const {user,setUser,setNotification} = ChatState();
+  const {user,setUser} = ChatState();
   const navigate = useNavigate();
 
 

@@ -17,10 +17,8 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
-  DrawerCloseButton,
   DrawerBody,
   Input,
-  DrawerFooter,
   useToast,
   Spinner,
   Badge,
@@ -65,7 +63,7 @@ const SideDrawer = () => {
 
     try {
       setLoading(true);
-      await axios("http://localhost:5001/api/user?search=" + search, {
+      await axios(process.env.REACT_APP_API_URL+"/api/user?search=" + search, {
         headers: {
           Authorization: "Bearer " + user.token,
         },

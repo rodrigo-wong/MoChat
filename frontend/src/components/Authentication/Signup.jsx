@@ -5,7 +5,6 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Button } from "@chakra-ui/button";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { ChatState } from "../../Context/ChatProvider";
 import axios from 'axios';
 
 const Signup = () => {
@@ -16,9 +15,7 @@ const Signup = () => {
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const {setSelectedChat} = ChatState()
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -77,7 +74,6 @@ const Signup = () => {
   };
 
   const submitHandler = async () => {
-    setLoading(true);
     if (!name || !email || !password) {
       toast({
         title: "Please Fill all the Feilds",
@@ -86,7 +82,6 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      setLoading(false);
       return;
     }
     if (password !== confirmpassword) {
@@ -102,7 +97,7 @@ const Signup = () => {
 
     try {
       await axios.post(
-        "http://localhost:5001/api/user",
+        process.env.REACT_APP_API_URL+"/api/user",
         {
           name: name,
           email: email,
@@ -132,7 +127,6 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      setLoading(false);
     }
   };
 

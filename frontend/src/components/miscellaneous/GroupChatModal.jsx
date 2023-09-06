@@ -42,7 +42,7 @@ const GroupChatModal = ({ children }) => {
     try {
       setLoading(true);
       const results = await axios(
-        "http://localhost:5001/api/user?search=" + search,
+        process.env.REACT_APP_API_URL+"/api/user?search=" + search,
         {
           headers: {
             Authorization: "Bearer " + user.token,
@@ -77,7 +77,7 @@ const GroupChatModal = ({ children }) => {
     try {
       await axios
         .post(
-          "http://localhost:5001/api/chat/group",
+          process.env.REACT_APP_API_URL+"/api/chat/group",
           {
             name: groupChatName,
             users: selectedUsers,
