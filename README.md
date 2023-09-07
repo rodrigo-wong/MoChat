@@ -6,3 +6,5 @@ Features:
 - Single and group chats
 - Email validation with nodemailer and JWT
 - Encrypted user information stored in database
+
+Demo URL: https://mochat-client.onrender.com
