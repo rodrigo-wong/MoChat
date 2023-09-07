@@ -1,4 +1,4 @@
-# mochat
+# MoChat
 
 A MERN full-stack live-chat web application with authorization/authentication using JSON Web Token while storing user information in the database in an encrypted format
 
