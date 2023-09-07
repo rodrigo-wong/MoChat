@@ -24,17 +24,17 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     password,
     pic,
   });
-  res.status(200);
   if (user) {
+    res.status(200).send("succesfull");
     const token = generateToken(user._id);
     const mailOptions = {
-      from: "mochat.verify@gmail.com",
+      from: process.env.MOCHAT_EMAIL,
       to: email,
       subject: "Email Verification",
       html: `
             <div>Click the following link to verify your email</div>
             <div>
-                <a href='http://localhost:5001/api/user/verify/${token}'>
+                <a href='${process.env.SERVER_URI}/api/user/verify/${token}'>
                     Verify Email
                 </a>
             </div>
@@ -54,10 +54,10 @@ const verifyUser = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(decoded.id);
     user.isVerified = true;
     await user.save();
-    res.status(200).redirect("http://localhost:3000/verification/sucess")
+    res.status(200).redirect(`${process.env.CORS_ORIGIN}/verification/sucess`)
   } catch (err) {
     console.log(err);
-    res.status(500).redirect("http://localhost:3000/verification/failed");
+    res.status(500).redirect(`${process.env.CORS_ORIGIN}/verification/failed`);
   }
 });
 

@@ -24,11 +24,7 @@ const userSchema = mongoose.Schema(
         isVerified:{
             type: Boolean,
             default: false
-        },
-        notification: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message'
-        }]
+        }
     },
     {
         timestamps: true

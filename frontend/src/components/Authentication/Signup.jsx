@@ -96,17 +96,19 @@ const Signup = () => {
     }
 
     try {
-      await axios.post(
+      console.log("before request");
+      const data = await axios.post(
         process.env.REACT_APP_API_URL+"/api/user",
         {
           name: name,
           email: email,
           password: password,
           pic: pic,
-        },
-        { headers: "Content-type : application/json" }
+        }
       );
+      console.log(data);
       navigate("/confirm-registration");
+      console.log("after request");
       toast({
         title: "Registration Sucessfull",
         status: "success",
