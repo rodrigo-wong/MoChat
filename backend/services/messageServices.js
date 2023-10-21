@@ -76,13 +76,15 @@ const allMessages = expressAsyncHandler(async (req, res) => {
       .populate("chat");
 
     // NOTIFICATIONS REMOVE
-    // const user = await User.findById(req.user._id).populate("notification");
-    // const notifications = user.notification;
 
-    // const chatNotif = notifications.filter(
-    //   (notif) => notif.chat.toString() === req.params.chatId
-    // );
-    // //console.log(chatNotif);
+    //const user = await User.findById(req.user._id).populate("notification");
+   //const notifications = user.notification;
+
+    //const chatNotif = notifications.filter(
+      //(notif) => notif.chat.toString() === req.params.chatId
+    //);
+    //console.log(chatNotif);
+
 
     // await User.findByIdAndUpdate(req.user._id, {
     //   $pull: { notification: { $in: chatNotif } },
