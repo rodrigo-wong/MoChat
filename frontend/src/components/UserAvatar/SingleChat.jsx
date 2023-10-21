@@ -120,7 +120,7 @@ const SingleChat = () => {
         socket.emit("new message", message.data);
         setMessages([...messages, message.data]);
         //if(selectedChat._id === data.chat._id)
-        updateNotif(message.data);
+        //updateNotif(message.data);
       } catch (error) {
         console.log(error.message);
         toast({
