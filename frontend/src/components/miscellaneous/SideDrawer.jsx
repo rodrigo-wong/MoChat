@@ -94,7 +94,8 @@ const SideDrawer = () => {
               Authorization: "Bearer " + user.token,
             },
           }
-        ).then((res)=>setSelectedChat(res.data))
+        );
+      setSelectedChat(results.data);
       if (!chats.find((chat) => chat._id === results.data._id)) {
         setChats(...chats, results.data);
       }
