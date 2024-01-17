@@ -30,9 +30,9 @@ const Homepage = () => {
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans" color="black">
-          MoChat
-        </Text>
+        <Box display="flex" justifyContent="center">
+          <img src="/mochat-logo.svg" alt="logo" style={{width: "30%", minWidth: "200px" }}/>
+        </Box>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px" color='black'>
         <Tabs variant="soft-rounded">
