@@ -6,14 +6,16 @@ import { Button } from "@chakra-ui/button";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
+import { Spinner } from '@chakra-ui/react';
 import axios from "axios";
 
 const Login = () => {
-  const { user, setUser, setSelectedChat } = ChatState();
+  const {user, setUser, setSelectedChat} = ChatState();
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [picLoading, setPicLoading] = useState();
+  const [loading, setLoading] = useState(false);
+
   const toast = useToast();
   const navigate = useNavigate("/chats");
 
@@ -23,7 +25,6 @@ const Login = () => {
 
   const submitHandler = async () => {
     try {
-      setPicLoading(true);
       if (!email || !password) {
         toast({
           title: "Please Fill all the Fields",
@@ -32,9 +33,9 @@ const Login = () => {
           isClosable: true,
           position: "bottom",
         });
-        setPicLoading(false);
         return;
       }
+      setLoading(true);
       const data = await axios
         .post(process.env.REACT_APP_API_URL+"/api/user/login", {
           email: email,
@@ -52,6 +53,7 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
     } catch (error) {
       const status = error.response.status;
       var message = error.message;
@@ -66,7 +68,7 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      setPicLoading(false);
+      setLoading(false);
     }
   };
   return (
@@ -81,6 +83,25 @@ const Login = () => {
           }}
         />
       </FormControl>
+      <div style={{position: "absolute", textAlign: "center"}}>
+        {loading? 
+          <div>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='xl'
+            />
+            <p>
+            Server is being rebooted. This will take 1-2 minutes.
+            </p>
+            
+          </div>
+          :
+          ""
+        }
+      </div>
       <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup>

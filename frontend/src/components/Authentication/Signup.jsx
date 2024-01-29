@@ -5,7 +5,8 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Button } from "@chakra-ui/button";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Spinner } from '@chakra-ui/react';
+import axios from "axios";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -15,6 +16,7 @@ const Signup = () => {
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -96,9 +98,9 @@ const Signup = () => {
     }
 
     try {
-      console.log("before request");
+      setLoading(true);
       const data = await axios.post(
-        process.env.REACT_APP_API_URL+"/api/user",
+        process.env.REACT_APP_API_URL + "/api/user",
         {
           name: name,
           email: email,
@@ -106,9 +108,7 @@ const Signup = () => {
           pic: pic,
         }
       );
-      console.log(data);
       navigate("/confirm-registration");
-      console.log("after request");
       toast({
         title: "Registration Sucessfull",
         status: "success",
@@ -116,10 +116,12 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
     } catch (error) {
       const status = error.response.status;
       var message = error.message;
-      if (status === 403) message = "Email is already associated with an account";
+      if (status === 403)
+        message = "Email is already associated with an account";
       if (status === 400) message = "Failed to create account";
       toast({
         title: "Error Occured!",
@@ -129,6 +131,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
     }
   };
 
@@ -162,6 +165,22 @@ const Signup = () => {
               setPassword(e.target.value);
             }}
           />
+          <div style={{ position: "absolute", textAlign: "center" }}>
+            {loading ? (
+              <div>
+                <Spinner
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="xl"
+                />
+                <p>Server is being rebooted. This will take 1-2 minutes.</p>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
           <InputRightElement>
             <Button h="1.75em" size="sm" onClick={handleClick}>
               {show ? "Hide" : "Show"}
